@@ -190,6 +190,16 @@ controls.enableDamping = true;
 controls.maxDistance = 200;
 controls.minDistance = 20
 
+const button = document.getElementById('pauseBtn');
+console.log(button)
+button.onclick=()=>{
+ if(button.innerText==="pause"){
+  button.innerText = "play"
+ }else{
+  button.innerText = "pause"
+ }
+}
+
 // add resize listener
 window.addEventListener("resize", () => {
   camera.aspect = window.innerWidth / window.innerHeight;
@@ -206,8 +216,10 @@ const elapsedTime = clock.getElapsedTime()
 
 planetMeshes.forEach((planet,index)=>{
   planet.rotation.y += planets[index].speed
-  planet.position.x = Math.sin(planet.rotation.y) * planets[index].distance
-  planet.position.z = Math.cos(planet.rotation.y) * planets[index].distance
+  if(button.innerText === "pause"){
+    planet.position.x = Math.sin(planet.rotation.y) * planets[index].distance
+    planet.position.z = Math.cos(planet.rotation.y) * planets[index].distance
+  }
   planet.children.forEach((moon,moonIndex)=>{
     moon.rotation.y += planets[index].moons[moonIndex].speed
     moon.position.x = Math.sin(moon.rotation.y)* planets[index].moons[moonIndex].distance
